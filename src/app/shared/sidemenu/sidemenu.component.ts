@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { routes } from '../../app.routes';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+
+import { routes } from '@app/app.routes';
 
 @Component({
   selector: 'app-sidemenu',
