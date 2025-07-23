@@ -1,9 +1,44 @@
-import { Component } from '@angular/core';
+import { JsonPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  signal,
+} from '@angular/core';
+
+import { TitleComponent } from '@app/shared/title/title.component';
 
 @Component({
   selector: 'app-change-detection',
-  imports: [],
+  imports: [TitleComponent, JsonPipe],
   templateUrl: './change-detection.component.html',
-  styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class ChangeDetectionComponent {}
+export default class ChangeDetectionComponent {
+  public currentFramework = computed(
+    () => `Change detection - ${this.frameworkAsSignal().name}`
+  );
+
+  public frameworkAsSignal = signal({
+    name: 'Angular',
+    relaseData: 2016,
+  });
+
+  public frameworkAsProperty = {
+    name: 'Angular',
+    relaseData: 2016,
+  };
+
+  constructor() {
+    setTimeout(() => {
+      // this.frameworkAsProperty.name = 'React';
+      // this.frameworkAsSignal.update((value) => ({ ...value, name: 'React' }));
+      this.frameworkAsSignal.update((value) => {
+        value.name = 'React';
+        return { ...value };
+      });
+
+      console.log('hecho');
+    }, 3000);
+  }
+}
