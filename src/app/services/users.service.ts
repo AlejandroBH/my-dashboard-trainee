@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 
 import { User, UserResponse } from '@app/interfaces/req-response';
@@ -25,9 +25,12 @@ export class UsersService {
 
   constructor() {
     this.http
-      .get<UserResponse>(`https://reqres.in/api/users`)
-      .pipe(delay(1500))
+      .get<UserResponse>('https://reqres.in/api/users', {
+        headers: new HttpHeaders().append('x-api-key', 'reqres-free-v1'),
+      })
+      .pipe(delay(2000))
       .subscribe((res) => {
+        // console.log(res);
         this.#state.set({
           loading: false,
           users: res.data,
